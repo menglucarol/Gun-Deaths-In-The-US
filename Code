@@ -1,0 +1,35 @@
+import csv
+f=open("guns.csv")
+file=csv.reader(f)
+data=list(file)
+headers=data[0]
+data=data[1:]
+print(headers)
+print(data[0:5])
+
+#Explore out the link, if any, between month and homicide rate
+
+#Step 1 Extract Months List and Intent List
+months=[row[2]for row in data]
+intents=[row[3]for row in data]
+#Step 2 calculate monthly homicide amount
+months_homicide={}
+for i, month in enumerate (months):
+    if intents[i]=="Homicide":
+        if month in months_homicide:
+            months_homicide[month]+=1
+        else:
+            months_homicide[month]=1
+print(months_homicide)
+
+#Step 3 total population
+f_1=open("census.csv")
+pop=csv.reader(f_1)
+data_pop=list(pop)
+total_pop=data_pop[1][9]
+
+#Step 4 calculate link between month and homicide rate
+months_homicide_rate={}
+for month, homicide_amount in months_homicide.items():
+    months_homicide_rate[month]=homicide_amount/int(total_pop)
+print(months_homicide_rate)
